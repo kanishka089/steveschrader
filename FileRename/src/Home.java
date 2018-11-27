@@ -89,18 +89,18 @@ public class Home extends javax.swing.JFrame {
                 String name = parts[0];
                 String form = parts[1];
                 //-----------------------------------------------------------------------------------------
-                File file = new File("D:\\CompanyProjects\\Fiverr\\steveschrader\\FileRename\\test\\test.pdf");
+                File file = new File("D:\\CompanyProjects\\Fiverr\\steveschrader\\FileRename\\test\\test1.pdf");
                 PdfReader reader;
 
-                reader = new PdfReader("D:\\CompanyProjects\\Fiverr\\steveschrader\\FileRename\\test\\test.pdf");
+                reader = new PdfReader("D:\\CompanyProjects\\Fiverr\\steveschrader\\FileRename\\test\\test1.pdf");
 
                 // pageNumber = 1
                 String textFromPage = PdfTextExtractor.getTextFromPage(reader, 1);
-                System.out.println(textFromPage);
+                //System.out.println(textFromPage);
 
                 reader.close();
-                if (textFromPage.toLowerCase().contains(name)) {
-                    File newFile = new File("D:\\CompanyProjects\\Fiverr\\steveschrader\\FileRename\\test\\new_"+name+".pdf");
+                if (textFromPage.toLowerCase().indexOf(name.toLowerCase()) != -1) {
+                    File newFile = new File("D:\\CompanyProjects\\Fiverr\\steveschrader\\FileRename\\test\\new_" + name + ".pdf");
                     file.renameTo(newFile);
                     System.out.println("OK");
                 } else {
