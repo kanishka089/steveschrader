@@ -1,6 +1,25 @@
 
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.parser.PdfTextExtractor;
+import java.awt.List;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.pdfbox.text.PDFTextStripperByArea;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -44,30 +63,57 @@ public class Home extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(266, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(253, 253, 253)
                 .addComponent(jButton1)
-                .addGap(252, 252, 252))
+                .addContainerGap(265, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(166, 166, 166)
+                .addGap(157, 157, 157)
                 .addComponent(jButton1)
-                .addContainerGap(206, Short.MAX_VALUE))
+                .addContainerGap(215, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        File file = new File("D:\\CompanyProjects\\Fiverr\\steveschrader\\FileRename\\test\\test.txt");
-        File newFile = new File("D:\\CompanyProjects\\Fiverr\\steveschrader\\FileRename\\test\\new.txt");
-        if (file.renameTo(newFile)) {
-            JOptionPane.showMessageDialog(null, "OK", "InfoBox:", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(null, "Fail", "InfoBox:", JOptionPane.INFORMATION_MESSAGE);
+        File file1 = new File("D:\\CompanyProjects\\Fiverr\\steveschrader\\FileRename\\values.txt");
+        try (BufferedReader br = new BufferedReader(new FileReader(file1))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+                String[] parts = line.split("_");
+                String name = parts[0];
+                String form = parts[1];
+                //-----------------------------------------------------------------------------------------
+                File file = new File("D:\\CompanyProjects\\Fiverr\\steveschrader\\FileRename\\test\\test.pdf");
+                PdfReader reader;
+
+                reader = new PdfReader("D:\\CompanyProjects\\Fiverr\\steveschrader\\FileRename\\test\\test.pdf");
+
+                // pageNumber = 1
+                String textFromPage = PdfTextExtractor.getTextFromPage(reader, 1);
+                System.out.println(textFromPage);
+
+                reader.close();
+                if (textFromPage.toLowerCase().contains(name)) {
+                    File newFile = new File("D:\\CompanyProjects\\Fiverr\\steveschrader\\FileRename\\test\\new_"+name+".pdf");
+                    file.renameTo(newFile);
+                    System.out.println("OK");
+                } else {
+                    System.out.println("fail");
+                    //JOptionPane.showMessageDialog(null, "Fail", "InfoBox:", JOptionPane.INFORMATION_MESSAGE);
+                }
+                //------------------------------------------------------------------------------------------------
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
